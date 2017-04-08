@@ -1,4 +1,0 @@
-
-##STARTNW
-## No network loaded
-##ENDNW
