@@ -3326,10 +3326,10 @@ int main(int argc, char **argv)
     int a;
     int anyargs = 0;
     char *OutputFileName = NULL; // "out.ts"
-    int VideoBitrate = 300000;
-    int MuxBitrate = 400000;
-    int VideoWidth = 352;
-    int VideoHeight = 288;
+    int VideoBitrate = 1000000;
+    int MuxBitrate = 1400000;
+    int VideoWidth = 640;
+    int VideoHeight = 480;
     int VideoFramerate = 25;
     int IDRPeriod = 100;
     int DelayPTS = 200;
@@ -3337,7 +3337,7 @@ int main(int argc, char **argv)
     char *NetworkOutput = NULL; // "230.0.0.1:10000";
     int EnableMotionVectors = 0;
     char *ExtraArg = NULL;
-    char *sdt = "F5OEO";
+    char *sdt = "N0CALL";
     int pidpmt = 255, pidvideo = 256, pidaudio = 257;
 
 #define CAMERA 0
