@@ -2562,7 +2562,7 @@ public:
             encoder.setBitrate(VideoBitrate,
                                OMX_Video_ControlRateVariable);
                                //OMX_Video_ControlRateConstant);
-
+            encoder.setPeakRate(TsBitrate);
             encoder.setCodec(OMX_VIDEO_CodingAVC);
             encoder.setIDR(IDRPeriod);
             encoder.setSEIMessage();
