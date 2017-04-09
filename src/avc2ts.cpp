@@ -1618,9 +1618,12 @@ public:
 
             // int QPCalculation=10+Width*Height*fps*Coeff/((Bitrate));
             // For 720*576, 25fps  : QP=280birate⁻(0,345)
-            int    QPCalculation =
-                281 * pow(Bitrate * (25 / fps) * (720 / Width) *
-                          (576 / Height) / 1000.0, -0.345) + 10;
+
+
+            int    QPCalculation = 35;
+// QP calculation is not usable for high bit rates
+//                281 * pow(Bitrate * (25 / fps) * (720 / Width) *
+//                          (576 / Height) / 1000.0, -0.345) + 10;
             printf("QP=%d\n", QPCalculation);
             if (QPCalculation > 48)
                 QPCalculation = 48;  // Fixme
