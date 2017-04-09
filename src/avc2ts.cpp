@@ -1392,9 +1392,8 @@ public:
                     "set video format");
         }
 
-        void setProfileLevel(int Profile =
-                                 OMX_VIDEO_AVCProfileMain, int Level =
-                                 OMX_VIDEO_AVCLevel32)
+        void setProfileLevel(int Profile = OMX_VIDEO_AVCProfileMain,
+                             int Level = OMX_VIDEO_AVCLevel4)
         {
             // OMX_VIDEO_AVCProfileBaseline,OMX_VIDEO_AVCProfileMain,OMX_VIDEO_AVCProfileExtended, OMX_VIDEO_AVCProfileHigh
             // OMX_VIDEO_AVCLevel3
