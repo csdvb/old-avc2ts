@@ -2558,19 +2558,16 @@ public:
             portDef->format.video.nFrameWidth = vfResized.width;
             portDef->format.video.nFrameHeight = vfResized.height;
 
-            encoder.setupOutputPortFromCamera(portDef, VideoBitrate * 2);
-            encoder.setBitrate(VideoBitrate * 2,
-                               OMX_Video_ControlRateVariable
-                               /*OMX_Video_ControlRateConstant */);
+            encoder.setupOutputPortFromCamera(portDef, VideoBitrate);
+            encoder.setBitrate(VideoBitrate,
+                               OMX_Video_ControlRateVariable);
+                               //OMX_Video_ControlRateConstant);
+
             encoder.setCodec(OMX_VIDEO_CodingAVC);
             encoder.setIDR(IDRPeriod);
             encoder.setSEIMessage();
             if (EnableMotionVectors)
                 encoder.setVectorMotion();
-
-            encoder.setQFromBitrate(VideoBitrate, fps,
-                                    CurrentVideoFormat.width,
-                                    CurrentVideoFormat.height);
 
             encoder.setLowLatency();
             encoder.setSeparateNAL();
