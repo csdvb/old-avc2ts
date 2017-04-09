@@ -1,0 +1,6 @@
+src/avc2ts
+src/avc2ts.o
+src/grabdisplay.o
+src/libmpegts/
+src/vncclient.o
+src/webcam.o
