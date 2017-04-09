@@ -40,7 +40,7 @@ extern "C" {
 #include "libmpegts/libmpegts.h"
 }
 
-#define PROGRAM_VERSION "1.0.0"
+#define PROGRAM_VERSION "1.0"
 
 // Problem with delay increasing : https://www.raspberrypi.org/forums/viewtopic.php?f=43&t=133446// Introductio to IL Component : http://fr.slideshare.net/pchethan/understanding-open-max-il-18376762// Camera modes : http://picamera.readthedocs.io/en/latest/fov.html// Understand Low latency : http://www.design-reuse.com/articles/33005/understanding-latency-in-video-compression-systems.html
 namespace {
