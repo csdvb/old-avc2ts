@@ -1614,16 +1614,14 @@ public:
         void setQFromBitrate(int Bitrate, int fps, int Width,
                              int Height, int MotionType = 0)
         {
-            int    Coeff = 2;
-
             // int QPCalculation=10+Width*Height*fps*Coeff/((Bitrate));
             // For 720*576, 25fps  : QP=280birate⁻(0,345)
-
-
-            int    QPCalculation = 35;
+            int    QPCalculation;
+//            int    Coeff = 2;
 // QP calculation is not usable for high bit rates
-//                281 * pow(Bitrate * (25 / fps) * (720 / Width) *
+//          QPCalculation = 281 * pow(Bitrate * (25 / fps) * (720 / Width) *
 //                          (576 / Height) / 1000.0, -0.345) + 10;
+            QPCalculation = 35;
             printf("QP=%d\n", QPCalculation);
             if (QPCalculation > 48)
                 QPCalculation = 48;  // Fixme
@@ -2301,7 +2299,7 @@ public:
         ts_frame_t tsframe;
         static int TimeToTransmitFrameUs = 0;
         static int TotalFrameSize = 0;
-        int ret;
+        int ret = 0;
         int len;
 
         /*if((FirstFrame==true)&&(Time!=NULL))
@@ -2417,9 +2415,9 @@ public:
 
                 if (vout)
                 {
-                    int n, ret;
+                    int n;
 
-                    ret = ioctl(fileno(vout), FIONREAD, &n);
+                    (void)ioctl(fileno(vout), FIONREAD, &n);
                     if (n > 40000)
                         printf("Overflow outpipe %ld Pipe %d\n",
                                time_difference, n);
@@ -2656,11 +2654,12 @@ public:
             if (encBuffer.flags() & OMX_BUFFERFLAG_CODECSIDEINFO)
             {
                 printf("CODEC CONFIG>\n");
-                int LenVector = encBuffer.dataSize();
+                //int LenVector = encBuffer.dataSize();
+                unsigned int i, j;
 
-                for (int j = 0; j < CurrentVideoFormat.height / 16; j++)
+                for (j = 0; j < CurrentVideoFormat.height / 16; j++)
                 {
-                    for (int i = 0; i < CurrentVideoFormat.width / 16; i++)
+                    for (i = 0; i < CurrentVideoFormat.width / 16; i++)
                     {
                         int Motionx =
                             encBuffer.
@@ -2848,9 +2847,7 @@ public:
         // resizer.setupOutputPort(VideoFormat,OMX_COLOR_Format32bitABGR8888);//OK
 
         // configuring encoders
-
-        VideoFromat vfResized = VideoFormat;
-
+        //VideoFromat vfResized = VideoFormat;
 
         encoder.setupOutputPort(VideoFormat, VideoBitrate * 2, fps);
         // OMX_Video_ControlRateDisable seems not supported !!!
@@ -2976,7 +2973,7 @@ public:
     int generate_test_card(OMX_U8 *buf, OMX_U32 *filledLen,
                            int frame)
     {
-        int i, j;
+        unsigned int i, j;
 
         frame = frame % 256;
         OMX_U8 *y = buf, *u =
@@ -2992,7 +2989,7 @@ public:
 
             for (i = 0; i < CurrentVideoFormat.width / 2; i++)
             {
-                int z = (((i + frame) >> 4) ^ ((j + frame) >> 4)) & 15;
+                //int z = (((i + frame) >> 4) ^ ((j + frame) >> 4)) & 15;
                 py[0] = py[1] = py[CurrentVideoFormat.width] =
                                     py[CurrentVideoFormat.width + 1] = 0x80 +
                                                                        frame *
@@ -3015,9 +3012,10 @@ public:
                               int frame)
     {
         OMX_U8 *current = buf;
+        unsigned int i, j;
 
-        for (int j = 0; j < CurrentVideoFormat.height; j++)
-            for (int i = 0; i < CurrentVideoFormat.width; i++)
+        for (j = 0; j < CurrentVideoFormat.height; j++)
+            for (i = 0; i < CurrentVideoFormat.width; i++)
             {
                 *current++ = 255;
                 *current++ = frame % 256;
@@ -3069,7 +3067,7 @@ public:
     {
         Buffer &encBuffer = encoder.outBuffer();
         Buffer &PictureBuffer = resizer.inBuffer();
-        static int QP = 45;
+        //static int QP = 45;
 
         if (!want_quit && (FirstTime || PictureBuffer.filled()))
         {
@@ -3145,11 +3143,12 @@ public:
             if (encBuffer.flags() & OMX_BUFFERFLAG_CODECSIDEINFO)
             {
                 printf("CODEC CONFIG>\n");
-                int LenVector = encBuffer.dataSize();
+                //int LenVector = encBuffer.dataSize();
+                unsigned int i, j;
 
-                for (int j = 0; j < CurrentVideoFormat.height / 16; j++)
+                for (j = 0; j < CurrentVideoFormat.height / 16; j++)
                 {
-                    for (int i = 0; i < CurrentVideoFormat.width / 16; i++)
+                    for (i = 0; i < CurrentVideoFormat.width / 16; i++)
                     {
                         int Motionx =
                             encBuffer.
@@ -3508,7 +3507,7 @@ int main(int argc, char **argv)
 
         unsigned highCount = 0;
         unsigned lowCount = 0;
-        unsigned noDataCount = 0;
+        //unsigned noDataCount = 0;
 
 
         while (1)
