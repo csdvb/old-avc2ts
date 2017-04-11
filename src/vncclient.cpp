@@ -42,7 +42,7 @@ VncClient::VncClient(char *IP, char *Password)
     client->GetPassword = GetPassword;
     MyPassword = Password;
     char   *argv[2];
-    argv[0] = "rpidatv";
+    argv[0] = (char *)"rpidatv";
     argv[1] = IP;
     int    argc = 2;
     if (!rfbInitClient(client, &argc, argv))

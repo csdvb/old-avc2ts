@@ -2274,7 +2274,7 @@ public:
         program[0].sdt = (sdt_program_ctx_t)
         {
             .service_type = DVB_SERVICE_TYPE_DIGITAL_TELEVISION,
-            .service_name = "Rpidatv",
+            .service_name = (char *)"Rpidatv",
             .provider_name = sdt,
         };
 
@@ -2837,7 +2837,7 @@ public:
         if (Mode == Mode_VNCCLIENT)
         {
             printf("Connecting to VNCSERVER %s...\n", Extra);
-            pvncclient = new VncClient(Extra, "datv");
+            pvncclient = new VncClient(Extra, (char *)"datv");
             int DisplayWidth, DisplayHeight, Rotate;
 
             pvncclient->GetDisplaySize(DisplayWidth, DisplayHeight, Rotate);
@@ -3318,7 +3318,7 @@ int main(int argc, char **argv)
     char *NetworkOutput = NULL; // "230.0.0.1:10000";
     int EnableMotionVectors = 0;
     char *ExtraArg = NULL;
-    char *sdt = "N0CALL";
+    char *sdt = (char *)"N0CALL";
     int pidpmt = 255, pidvideo = 256, pidaudio = 257;
 
 #define CAMERA 0
@@ -3474,7 +3474,7 @@ int main(int argc, char **argv)
             case USB_CAMERA:
                 PictureMode = PictureTots::Mode_V4L2;
                 if (ExtraArg == NULL)
-                    ExtraArg = "/dev/video0";
+                    ExtraArg = (char *)"/dev/video0";
                 break;
             case DISPLAY:
                 PictureMode = PictureTots::Mode_GRABDISPLAY;
