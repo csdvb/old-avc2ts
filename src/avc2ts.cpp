@@ -40,6 +40,7 @@ extern "C" {
 #include "libmpegts/libmpegts.h"
 }
 
+
 #define PROGRAM_VERSION "1.0"
 
 // Problem with delay increasing : https://www.raspberrypi.org/forums/viewtopic.php?f=43&t=133446// Introductio to IL Component : http://fr.slideshare.net/pchethan/understanding-open-max-il-18376762// Camera modes : http://picamera.readthedocs.io/en/latest/fov.html// Understand Low latency : http://www.design-reuse.com/articles/33005/understanding-latency-in-video-compression-systems.html
@@ -2272,17 +2273,16 @@ public:
         program[0].streams = ts_stream;
         program[0].sdt = (sdt_program_ctx_t)
         {
-            .service_type = DVB_SERVICE_TYPE_DIGITAL_TELEVISION, .service_name =
-                "Rpidatv", .provider_name = sdt,
+            .service_type = DVB_SERVICE_TYPE_DIGITAL_TELEVISION,
+            .service_name = "Rpidatv",
+            .provider_name = sdt,
         };
-
 
         ts_stream[0].pid = VideoPid;
         ts_stream[0].stream_format = LIBMPEGTS_VIDEO_AVC;
         ts_stream[0].stream_id = LIBMPEGTS_STREAM_ID_MPEGVIDEO;
         ts_stream[0].dvb_au = 1;
         ts_stream[0].dvb_au_frame_rate = LIBMPEGTS_DVB_AU_25_FPS; // To be fixed : using framerate
-
 
         ts_setup_transport_stream(writer, &tsmain);
         ts_setup_sdt(writer);
@@ -2294,9 +2294,8 @@ public:
             vout = fopen(OutputFilename, "w+");
     }
 
-    void AddFrame(uint8_t *buffer, int size, int OmxFlags,
-                  uint64_t key_frame, int DelayPTS =
-                      200, struct timespec *Time = NULL)
+    void AddFrame(uint8_t *buffer, int size, int OmxFlags, uint64_t key_frame,
+                  int DelayPTS = 200, struct timespec *Time = NULL)
     {
         // unsigned char buffer[100];
         ts_frame_t tsframe;
@@ -2529,8 +2528,8 @@ private:
 public:
     void Init(VideoFromat &VideoFormat, char *FileName, char *Udp,
               int VideoBitrate, int TsBitrate, int SetDelayPts,
-              int PMTPid, char *sdt, int fps = 25, int IDRPeriod =
-                  100, int RowBySlice = 0,
+              int PMTPid, char *sdt, int fps = 25,
+              int IDRPeriod = 100, int RowBySlice = 0,
               int EnableMotionVectors = 0)
     {
         CurrentVideoFormat = VideoFormat;
@@ -2605,7 +2604,6 @@ public:
         // switch components to idle state
         {
             camera.switchState(OMX_StateIdle);
-
             encoder.switchState(OMX_StateIdle);
             videorender.switchState(OMX_StateIdle);
         }
@@ -2616,7 +2614,6 @@ public:
             camera.enablePort(Camera::OPORT_VIDEO);
             camera.enablePort(Camera::OPORT_PREVIEW);
             videorender.enablePort(VideoRenderer::IPORT);
-
             encoder.enablePort(); // all
         }
 
@@ -2800,10 +2797,9 @@ public:
 public:
     void Init(VideoFromat &VideoFormat, char *FileName, char *Udp,
               int VideoBitrate, int TsBitrate, int SetDelayPts,
-              int PMTPid, char *sdt, int fps = 25, int IDRPeriod =
-                  100, int RowBySlice = 0, int EnableMotionVectors =
-                  0, int ModeInput = Mode_PATTERN,
-              char *Extra = NULL)
+              int PMTPid, char *sdt, int fps = 25, int IDRPeriod = 100,
+              int RowBySlice = 0, int EnableMotionVectors = 0,
+              int ModeInput = Mode_PATTERN, char *Extra = NULL)
     {
         last_time.tv_sec = 0;
         last_time.tv_nsec = 0;
@@ -2818,15 +2814,11 @@ public:
             pwebcam = new Webcam(Extra);
             int CamWidth, CamHeight;
             pwebcam->GetCameraSize(CamWidth, CamHeight);
-
-
             printf("Resizer input = %d x %d\n", CamWidth, CamHeight);
-
-
             resizer.setupOutputPort(CamWidth, CamHeight, VideoFormat,
                                     OMX_COLOR_FormatYUV420PackedPlanar);
         }
-        if            (Mode == Mode_PATTERN)
+        if (Mode == Mode_PATTERN)
         {
             resizer.setupOutputPort(VideoFormat.width, VideoFormat.height,
                                     VideoFormat,
@@ -2917,8 +2909,6 @@ public:
         }
 
         // allocate buffers
-
-
         resizer.allocBuffers();
 
         if (Mode == Mode_V4L2)
@@ -2937,7 +2927,6 @@ public:
         }
         printf("Allocsize= %d\n", resizer.inBuffer().allocSize());
         encoder.allocBuffers(false); // Only  Bufout
-
 
         // switch state of the components prior to starting
         {
@@ -3003,8 +2992,7 @@ public:
 
             for (i = 0; i < CurrentVideoFormat.width / 2; i++)
             {
-                int z =
-                    (((i + frame) >> 4) ^ ((j + frame) >> 4)) & 15;
+                int z = (((i + frame) >> 4) ^ ((j + frame) >> 4)) & 15;
                 py[0] = py[1] = py[CurrentVideoFormat.width] =
                                     py[CurrentVideoFormat.width + 1] = 0x80 +
                                                                        frame *
@@ -3036,6 +3024,7 @@ public:
                 *current++ = i % 128;
                 *current++ = frame % 256;
             }
+
         *filledLen =
             ((CurrentVideoFormat.width * CurrentVideoFormat.height * 4));
 
@@ -3076,8 +3065,6 @@ public:
  *       //printf("Count =%d\n",count);
  *  }
  */
-
-
     void Run(bool want_quit)
     {
         Buffer &encBuffer = encoder.outBuffer();
@@ -3184,9 +3171,7 @@ public:
                 return;
             }
 
-            unsigned toWrite = (encBuffer.dataSize());
-
-
+            unsigned toWrite = encBuffer.dataSize();
             if (toWrite)
             {
                 int OmxFlags = encBuffer.flags();
@@ -3217,8 +3202,6 @@ public:
                 tsencoder.AddFrame(encBuffer.data(), encBuffer.dataSize(),
                                    OmxFlags, key_frame, DelayPTS,
                                    &gettime_now);
-
-
                 // tsencoder.AddFrame(encBuffer.data(),encBuffer.dataSize(),OmxFlags,key_frame,DelayPTS);
             }
             else
@@ -3236,7 +3219,6 @@ public:
         else
             usleep(1000);
     }
-
 
     void Terminate()
     {
