@@ -2860,9 +2860,9 @@ public:
         encoder.setSEIMessage();
         if (EnableMotionVectors)
             encoder.setVectorMotion();
-        encoder.setQFromBitrate(VideoBitrate, Videofps,
-                                CurrentVideoFormat.width,
-                                CurrentVideoFormat.height);
+//        encoder.setQFromBitrate(VideoBitrate, Videofps,
+//                                CurrentVideoFormat.width,
+//                                CurrentVideoFormat.height);
         // encoder.setQPLimits(30,30);
         // encoder.setQP(24,24);
         encoder.setLowLatency();
